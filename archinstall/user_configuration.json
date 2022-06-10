@@ -1,0 +1,50 @@
+{
+    "HSM": null,
+    "__separator__": null,
+    "additional-repositories": [
+        "multilib"
+    ],
+    "archinstall-language": "French",
+    "audio": "pipewire",
+    "bootloader": "grub-install",
+    "config_version": "2.5.0",
+    "debug": false,
+    "harddrives": [
+        "DISK_NAME"
+    ],
+    "hostname": "HOSTNAME",
+    "kernels": [
+        "linux-lts"
+    ],
+    "keyboard-layout": "fr",
+    "mirror-region": {
+        "Worldwide": {
+            "http://mirror.rackspace.com/archlinux/$repo/os/$arch": true,
+            "https://geo.mirror.pkgbuild.com/$repo/os/$arch": true,
+            "https://mirror.rackspace.com/archlinux/$repo/os/$arch": true
+        }
+    },
+    "mount_point": null,
+    "nic": {
+        "dhcp": true,
+        "dns": null,
+        "gateway": null,
+        "iface": null,
+        "ip": null,
+        "type": "nm"
+    },
+    "ntp": true,
+    "packages": [],
+    "plugin": null,
+    "profile": {
+        "path": "/usr/lib/python3.10/site-packages/archinstall/profiles/minimal.py"
+    },
+    "save_config": null,
+    "script": "guided",
+    "silent": false,
+    "swap": true,
+    "sys-encoding": "UTF-8",
+    "sys-language": "fr_FR",
+    "timezone": "Europe/Paris",
+    "version": "2.5.0"
+}
