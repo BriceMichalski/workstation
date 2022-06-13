@@ -1,0 +1,8 @@
+{
+    "packages" : [
+        "git",
+        "jq",
+        "vlc",
+        "terminator"
+    ]
+}

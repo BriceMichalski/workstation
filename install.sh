@@ -1,5 +1,5 @@
 #!/bin/bash
-ARCHINSTALL_CONFIG_URL="https://raw.githubusercontent.com/BriceMichalski/workstation/main/archinstall"
+ARCHINSTALL_CONFIG_URL="https://raw.githubusercontent.com/BriceMichalski/workstation/pantheon"
 WORKDIR="/tmp/archinstall"
 
 RED='\033[0;31m'
@@ -66,23 +66,26 @@ while [[ $# -gt 0 ]]; do
 done
 
 pacman -Sy
-pacman -S --noconfirm archinstall
+pacman -S --noconfirm archinstall jq
 mkdir -p $WORKDIR
 
 # Download Archinstall Template
-curl $ARCHINSTALL_CONFIG_URL/user_credentials.json --output $WORKDIR/creds.json
-curl $ARCHINSTALL_CONFIG_URL/user_configuration.json --output $WORKDIR/config.json
-curl $ARCHINSTALL_CONFIG_URL/user_disk_layout.json --output $WORKDIR/disk.json
+curl $ARCHINSTALL_CONFIG_URL/archinstall/user_credentials.json --output $WORKDIR/creds.json
+curl $ARCHINSTALL_CONFIG_URL/archinstall/user_configuration.json --output $WORKDIR/config.json.tmp
+curl $ARCHINSTALL_CONFIG_URL/archinstall/user_disk_layout.json --output $WORKDIR/disk.json
+curl $ARCHINSTALL_CONFIG_URL/packages.json --output $WORKDIR/packages.json
 
 # POPULATE TEMPLATE WITH VALUE
 sed -i "s/USER_PASSWORD/$USER_PASSWORD/" $WORKDIR/creds.json
 sed -i "s/ROOT_PASSWORD/$ROOT_PASSWORD/" $WORKDIR/creds.json
 sed -i "s/ENCRYPT_PASSWORD/$ENCRYPT_PASSWORD/" $WORKDIR/creds.json
 
-sed -i "s/DISK_NAME/$DISK_NAME/" $WORKDIR/config.json
-sed -i "s/HOSTNAME/$HOSTNAME/" $WORKDIR/config.json
-
 sed -i "s/DISK_NAME/$DISK_NAME/" $WORKDIR/disk.json
+
+sed -i "s/DISK_NAME/$DISK_NAME/" $WORKDIR/config.json.tmp
+sed -i "s/HOSTNAME/$HOSTNAME/" $WORKDIR/config.json.tmp
+
+jq -s '.[0] * .[1]' $WORKDIR/packages.json $WORKDIR/config.json.tmp > $WORKDIR/config.json
 
 
 # Launch Archinstall
