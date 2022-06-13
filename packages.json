@@ -1,0 +1,16 @@
+{
+    "packages" : [
+
+        "xorg",
+        "lightdm",
+        "pantheon",
+        "pantheon-session",
+        "lightdm-gtk-greeter",
+        "lightdm-pantheon-greeter",
+
+        "git",
+        "jq",
+        "vlc",
+        "terminator"
+    ]
+}
