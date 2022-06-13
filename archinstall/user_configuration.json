@@ -10,7 +10,7 @@
     "config_version": "2.5.0",
     "custom-commands": [
         "echo 'greeter-session = io.elementary.greeter' > /etc/lightdm/lightdm.conf",
-        "curl https://ARCHINSTALL_CONFIG_URL/config/lightdm.conf > /etc/lightdm/lightdm.conf",
+        "curl ARCHINSTALL_CONFIG_URL/config/lightdm.conf > /etc/lightdm/lightdm.conf",
         "systemctl enable lightdm.service",
         "systemctl enable NetworkManager"
     ],

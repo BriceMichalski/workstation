@@ -82,7 +82,7 @@ sed -i "s/ENCRYPT_PASSWORD/$ENCRYPT_PASSWORD/" $WORKDIR/creds.json
 
 sed -i "s/DISK_NAME/$DISK_NAME/" $WORKDIR/disk.json
 
-sed -i "s/ARCHINSTALL_CONFIG_URL/$ARCHINSTALL_CONFIG_URL/" $WORKDIR/config.json.tmp
+sed -i "s/ARCHINSTALL_CONFIG_URL/$( echo $ARCHINSTALL_CONFIG_URL | sed 's/\//\\\//g')/" $WORKDIR/config.json.tmp
 sed -i "s/DISK_NAME/$DISK_NAME/" $WORKDIR/config.json.tmp
 sed -i "s/HOSTNAME/$HOSTNAME/" $WORKDIR/config.json.tmp
 
