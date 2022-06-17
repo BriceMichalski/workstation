@@ -1,5 +1,5 @@
 #!/bin/bash
-ARCHINSTALL_CONFIG_URL="https://raw.githubusercontent.com/BriceMichalski/workstation/pantheon"
+ARCHINSTALL_CONFIG_URL="https://raw.githubusercontent.com/BriceMichalski/workstation/lightdm-config"
 WORKDIR="/tmp/archinstall"
 
 RED='\033[0;31m'
@@ -11,11 +11,11 @@ help(){
   echo "USAGE:"
   echo "  $ install.sh [ARGS]"
   echo "ARGS:"
-  echo "-d,--disk-name                  Disk that will be parted" 
-  echo "-e,--encrypt-password           Root partition encryption password" 
+  echo "-d,--disk-name                  Disk that will be parted"
+  echo "-e,--encrypt-password           Root partition encryption password"
   echo "-h,--hostname                   Hostname of the station"
-  echo "-r,--root-password              Root password"  
-  echo "-u,--user-password              User password"  
+  echo "-r,--root-password              Root password"
+  echo "-u,--user-password              User password"
 }
 
 if [ $# -eq 0 ]; then
@@ -53,7 +53,7 @@ while [[ $# -gt 0 ]]; do
     --help)
       help
       exit 0
-      ;;   
+      ;;
     -*|--*)
       echo "Unknown option $1"
       exit 1
@@ -109,9 +109,11 @@ fi
 
 for i in $(seq 30 -1 1)
 do
-  echo -en "\rPlease remove your installation support within the time limit : $i s"
+  echo -en "\rPlease remove your installation support within the time limit : $i s  "
   sleep 1
 done
 
 echo "now reboot."
+sleep 2
+
 reboot

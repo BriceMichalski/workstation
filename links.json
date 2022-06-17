@@ -1,0 +1,8 @@
+{
+    "links": [
+        { "src": "config/terminator.ini", "dest": "/home/brice_michalski/.config/terminator/config"},
+        { "src": "config/lightdm.conf", "dest": "/etc/lightdm/lightdm.conf"},
+        { "src": "config/plank/autostart.desktop", "dest": "/home/brice_michalski/.config/autostart/plank.desktop"},
+        { "src": "config/plank/launchers", "dest": "/home/brice_michalski/.config/plank/mydock/launchers"}     
+    ]
+}

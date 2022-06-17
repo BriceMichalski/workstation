@@ -7,10 +7,16 @@
         "pantheon-session",
         "lightdm-gtk-greeter",
         "lightdm-pantheon-greeter",
+        "dconf",
 
         "git",
+        "vim",
         "jq",
-        "vlc",
-        "terminator"
+        "htop",
+        "tree",
+        "terminator",
+        "python-pip",
+        "figlet"
+        
     ]
 }

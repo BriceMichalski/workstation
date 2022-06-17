@@ -9,9 +9,8 @@
     "bootloader": "grub-install",
     "config_version": "2.5.0",
     "custom-commands": [
-        "curl ARCHINSTALL_CONFIG_URL/config/lightdm.conf > /etc/lightdm/lightdm.conf",
-        "systemctl enable lightdm.service",
-        "systemctl enable NetworkManager"
+        "git clone -b lightdm-config https://github.com/BriceMichalski/workstation.git /home/brice_michalski/.workstation",
+        "bash /home/brice_michalski/.workstation/configuration.sh"
     ],
     "debug": false,
     "harddrives": [
