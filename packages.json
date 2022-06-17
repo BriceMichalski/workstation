@@ -1,22 +1,30 @@
 {
-    "packages" : [
+    "pacman": {
+        "packages" : [
 
-        "xorg",
-        "lightdm",
-        "pantheon",
-        "pantheon-session",
-        "lightdm-gtk-greeter",
-        "lightdm-pantheon-greeter",
-        "dconf",
-
-        "git",
-        "vim",
-        "jq",
-        "htop",
-        "tree",
-        "terminator",
-        "python-pip",
-        "figlet"
-        
-    ]
+            "xorg",
+            "lightdm",
+            "pantheon",
+            "pantheon-session",
+            "lightdm-gtk-greeter",
+            "lightdm-pantheon-greeter",
+            "dconf",
+    
+            "zsh",
+            "xterm",
+            "git",
+            "vim",
+            "jq",
+            "htop",
+            "tree",
+            "terminator",
+            "python-pip",
+            "figlet"
+        ]
+    },
+    "aur": {
+        "repos": [
+            "https://aur.archlinux.org/xtermcontrol.git"
+        ]
+    }
 }

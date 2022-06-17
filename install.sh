@@ -86,7 +86,7 @@ sed -i "s/ARCHINSTALL_CONFIG_URL/$( echo $ARCHINSTALL_CONFIG_URL | sed 's/\//\\\
 sed -i "s/DISK_NAME/$DISK_NAME/" $WORKDIR/config.json.tmp
 sed -i "s/HOSTNAME/$HOSTNAME/" $WORKDIR/config.json.tmp
 
-jq -s '.[0] * .[1]' $WORKDIR/packages.json $WORKDIR/config.json.tmp > $WORKDIR/config.json
+jq -s '.[0].packman * .[1]' $WORKDIR/packages.json $WORKDIR/config.json.tmp > $WORKDIR/config.json
 
 
 # Launch Archinstall
