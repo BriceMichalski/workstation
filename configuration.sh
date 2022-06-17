@@ -1,6 +1,7 @@
 BROWN='\033[0;33m'
 GREEN='\033[0;32m'
 RED='\033[0;31m'
+CYAN='\033[0;36m'
 NC='\033[0m'
 
 WORKSTATION_DIR="/home/brice_michalski/.workstation"
@@ -40,32 +41,42 @@ execute() {
     comm=$1
     command=$2
 
-    echo -en "\r$comm "
+    echo -en "$comm "
     echo $command | bash > /dev/null 2>&1
 
     if [ $? -eq 0 ]; then
-        echo -e " [${GREEN}OK${NC}]"
+        echo -e "\r[${GREEN}OK${NC}] $comm"
     else
-        echo -e " [${RED}KO${NC}]"
+        echo -e "\r[${RED}KO${NC}] $comm"
     fi
 }
 
 executeAs(){
     comm=$1
     user=$2
-    command=$( echo $3 | sed 's/\//\\\//g')
+    command=$3
 
-    echo "launch :  sudo -H -u $user -i /bin/bash -c '$command'"
+    if [[ "$DEBUG" -eq 1 ]]
+    then
+        echo -e "${CYAN}"
+        echo ">    sudo -H -u $user -i /bin/bash -c '$command'"
+        echo -e "${NC}"
+    fi
 
-    echo -en "\r$comm "
+    echo -en "$comm "
 
-    echo "sudo -H -u $user -i /bin/bash -c '$command'"
-    echo "sudo -H -u $user -i /bin/bash -c '$command'" | bash > /dev/null 2>&1
+    if [[ "$DEBUG" -eq 1 ]]
+    then
+        echo "sudo -H -u $user -i /bin/bash -c '$command'" | bash 
+    else
+        echo "sudo -H -u $user -i /bin/bash -c '$command'" | bash  > /dev/null 2>&1
+    fi
+    
 
     if [ $? -eq 0 ]; then
-        echo -e " [${GREEN}OK${NC}]"
+        echo -e "\r[${GREEN}OK${NC}] $comm"
     else
-        echo -e " [${RED}KO${NC}]"
+        echo -e "\r[${RED}KO${NC}] $comm"
     fi
 }
 
@@ -77,15 +88,50 @@ configd(){
     echo -e "${GREEN}Dconf settings applied${NC} [$confName]"
 }
 
-#
-#   MAIN PROGRAM
-#
+rua(){
+    repo=$1
+    appName=$(basename $1 | sed 's/\.git//g' )
+    cpwd=$PWD
+    aurPath="/home/brice_michalski/.aur/$appName"
+
+    echo -en "Install $appName"
+    executeAs "create aur dir" "brice_michalski"  "mkdir -p $aurPath"
+
+    if [ -d "$aurPath/.git" ] 
+    then
+        cd $aurPath
+        executeAs "pull repo" "brice_michalski"  "cd $aurPath && git pull"
+
+    else
+        executeAs "clone repos" "brice_michalski" "git clone $repo $aurPath"
+    fi
+
+    executeAs "makepkg" "brice_michalski" "cd $aurPath && makepkg --noconfirm -si"
+    cd $cpwd
+
+    if [ $? -eq 0 ]; then
+        echo -e "\r[${GREEN}OK${NC}] $appName"
+    else
+        echo -e "\r[${RED}KO${NC}] $appName"
+    fi 
+}
+
+#####################
+#                   #
+#   MAIN PROGRAM    #
+#                   #
+#####################
 
 NO_LOGOUT=0
+DEBUG=0
 while [[ $# -gt 0 ]]; do
   case $1 in
     --no-logout)
       NO_LOGOUT=1
+      shift # past argument
+      ;;
+    --debug)
+      DEBUG=1
       shift # past argument
       ;;
     -*|--*)
@@ -99,11 +145,29 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
-pacman --noconfirm -S figlet
+
+
 figlet "Workstation Configuration"
 
-# executeAs "Load dconf look"   "brice_michalski"     "dconf load / < /home/brice_michalski/.config/dconf/look.dconf"
+# Oh my zsh
+title "Custom Bash"
 
+executeAs 'remove exiting oh-my-zsh'        'brice_michalski'   'rm -rf ~/.oh-my-zsh'
+executeAs 'install oh-my-zsh'               'brice_michalski'   'sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"'
+executeAs 'remove exiting oh-my-zsh'        'brice_michalski'   'rm -rf ~/.zshrc.pre-oh-my-zsh'
+executeAs 'zsh-autosuggestions plugin'      'brice_michalski'   'git clone https://github.com/zsh-users/zsh-autosuggestions          ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions'
+executeAs 'zsh-syntax-highlighting plugin'  'brice_michalski'   'git clone https://github.com/zsh-users/zsh-syntax-highlighting.git  ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting'
+execute 'Set default bash to zh' "usermod --shell /usr/bin/zsh brice_michalski"
+
+
+# Install Aur
+title "Aur installation"
+
+repos=$(cat $WORKSTATION_DIR/packages.json | jq -r ".aur.repos[]")
+for repo in $repos
+do
+    rua $repo
+done
 
 # Create Simlink to configuration
 title "Link Configuration File"
@@ -115,7 +179,6 @@ do
     dest=$(echo $link | jq -r ".dest")
     symlink $source $dest
 done
-
 
 # Load Service
 title "Enable Service" 
@@ -133,7 +196,6 @@ title "Apply Dconf Settings"
 files=$(ls -1 $WORKSTATION_DIR/config/dconf)
 for file in $files
 do  
-
     configd $file 
 done
 
