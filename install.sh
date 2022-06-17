@@ -1,5 +1,5 @@
 #!/bin/bash
-ARCHINSTALL_CONFIG_URL="https://raw.githubusercontent.com/BriceMichalski/workstation/lightdm-config"
+ARCHINSTALL_CONFIG_URL="https://raw.githubusercontent.com/BriceMichalski/workstation/main"
 WORKDIR="/tmp/archinstall"
 
 RED='\033[0;31m'

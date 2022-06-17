@@ -9,8 +9,8 @@
     "bootloader": "grub-install",
     "config_version": "2.5.0",
     "custom-commands": [
-        "git clone -b lightdm-config https://github.com/BriceMichalski/workstation.git /home/brice_michalski/.workstation",
-        "bash /home/brice_michalski/.workstation/configuration.sh"
+        "git clone -b main https://github.com/BriceMichalski/workstation.git /home/brice_michalski/.workstation",
+        "bash /home/brice_michalski/.workstation/configuration.sh --no-logout"
     ],
     "debug": false,
     "harddrives": [
