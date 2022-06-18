@@ -24,7 +24,14 @@
     },
     "aur": {
         "repos": [
-            "https://aur.archlinux.org/xtermcontrol.git"
+            "https://aur.archlinux.org/xtermcontrol.git",
+            "https://aur.archlinux.org/google-chrome.git",
+            "https://aur.archlinux.org/visual-studio-code-bin.git"
+        ]
+    },
+    "pip": {
+        "packages":[
+            "thefuck"
         ]
     }
 }

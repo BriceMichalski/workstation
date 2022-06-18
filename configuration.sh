@@ -15,15 +15,32 @@ symlink(){
     source="$WORKSTATION_DIR/$1"
     dest="$2"
 
-    mkdir -p $(dirname $dest)
+    executeAs "create link basedir"  "brice_michalski"  "mkdir -p $(dirname $dest)" > /dev/null 2>&1
 
     rm -rf $dest
     ln -sf $source $dest
 
     if [ $? -eq 0 ]; then
-        echo -e "${GREEN}Created Link${NC} $dest -> $source"
+        echo -e "[${GREEN}OK${NC}] $dest -> $source"
     else
-        echo -e "${RED}Link creation failed${NC} $dest -> $source"
+        echo -e "[${RED}KO${NC}] $dest -> $source"
+    fi
+}
+
+file(){
+    executeAs "mkdir"  "brice_michalski"  "mkdir -p $(dirname $dest)" > /dev/null 2>&1
+    if [[ $1 == config* ]]; then
+        source="$WORKSTATION_DIR/$1"
+        dest=$2
+
+        executeAs "Copy $source to $dest"  "brice_michalski"  "cat $source > $dest"
+    fi
+
+    if [[ $1 == http* ]]; then
+        source=$1
+        dest=$2
+
+        executeAs "Download $source into $dest"  "brice_michalski"  "curl -L -k $source > $dest" 
     fi
 }
 
@@ -95,25 +112,50 @@ rua(){
     aurPath="/home/brice_michalski/.aur/$appName"
 
     echo -en "Install $appName"
-    executeAs "create aur dir" "brice_michalski"  "mkdir -p $aurPath"
+    executeAs "create aur dir" "brice_michalski"  "mkdir -p $aurPath" > /dev/null 2>&1
 
     if [ -d "$aurPath/.git" ] 
     then
         cd $aurPath
-        executeAs "pull repo" "brice_michalski"  "cd $aurPath && git pull"
+        executeAs "pull repo" "brice_michalski"  "cd $aurPath && git pull" > /dev/null 2>&1
 
     else
-        executeAs "clone repos" "brice_michalski" "git clone $repo $aurPath"
+        executeAs "clone repos" "brice_michalski" "git clone $repo $aurPath" > /dev/null 2>&1
     fi
 
-    executeAs "makepkg" "brice_michalski" "cd $aurPath && makepkg --noconfirm -si"
+    executeAs "makepkg" "brice_michalski" "cd $aurPath && makepkg --noconfirm -si" > /dev/null 2>&1
     cd $cpwd
 
     if [ $? -eq 0 ]; then
-        echo -e "\r[${GREEN}OK${NC}] $appName"
+        echo -e "\r[${GREEN}OK${NC}] Install $appName"
     else
-        echo -e "\r[${RED}KO${NC}] $appName"
+        echo -e "\r[${RED}KO${NC}] Install $appName"
     fi 
+}
+
+ipi(){
+    pack=$1
+
+    if [[ "$DEBUG" -eq 1 ]]
+    then
+        echo -e "${CYAN}"
+        echo ">    pip install $pack"
+        echo -e "${NC}"
+    fi
+
+    if [[ "$DEBUG" -eq 1 ]]
+    then
+        echo "pip install $pack" | bash  
+    else
+        echo "pip install $pack" | bash > /dev/null 2>&1
+    fi
+    
+
+    if [ $? -eq 0 ]; then
+        echo -e "\r[${GREEN}OK${NC}] $pack"
+    else
+        echo -e "\r[${RED}KO${NC}] $pack"
+    fi
 }
 
 #####################
@@ -124,6 +166,7 @@ rua(){
 
 NO_LOGOUT=0
 DEBUG=0
+OPATH=$PWD
 while [[ $# -gt 0 ]]; do
   case $1 in
     --no-logout)
@@ -145,9 +188,13 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
-
-
+git config --global --add safe.directory /home/brice_michalski/.workstation
 figlet "Workstation Configuration"
+
+
+title "Pull configuration"
+
+execute "git pull"
 
 # Oh my zsh
 title "Custom Bash"
@@ -169,16 +216,37 @@ do
     rua $repo
 done
 
-# Create Simlink to configuration
-title "Link Configuration File"
+# Install Aur
+title "Pip Packages Installation"
 
-links=$(cat $WORKSTATION_DIR/links.json | jq -c ".links[]")
+packages=$(cat $WORKSTATION_DIR/packages.json | jq -r ".pip.packages[]")
+for pack in $packages
+do
+    ipi $pack
+done
+
+# Create Simlink to configuration
+title "Link Configuration"
+
+links=$(cat $WORKSTATION_DIR/files.json | jq -c ".links[]")
 for link in $links
 do
     source=$(echo $link | jq -r ".src")
     dest=$(echo $link | jq -r ".dest")
     symlink $source $dest
 done
+
+# Create file
+title "File Configuration"
+
+links=$(cat $WORKSTATION_DIR/files.json | jq -c ".files[]")
+for link in $links
+do
+    source=$(echo $link | jq -r ".src")
+    dest=$(echo $link | jq -r ".dest")
+    file $source $dest
+done
+
 
 # Load Service
 title "Enable Service" 
@@ -206,6 +274,14 @@ echo "==========================="
 echo "====  CONFIG SUCESSED  ===="
 echo "==========================="
 echo -e "${NC}"
+
+cd $WORKSTATION_DIR
+currentCommit=$(git rev-parse HEAD)
+currentDate=$(date -R)
+
+executeAs 'Keep trace of this configuration'  'brice_michalski'  "echo \"$currentDate  -  $currentCommit\" >> /home/brice_michalski/.workstation.log"
+cd $OPATH
+
 
 if [[ "$NO_LOGOUT" -eq 1 ]]
 then
