@@ -1,0 +1,122 @@
+
+- hosts: all
+  tasks: 
+
+    - name: Workstation Repository
+      block:
+        - name: Workstation Repository - get safe Repository
+          ansible.builtin.command: |
+            git config --global --get safe.directory
+          register: safe_repos
+          changed_when: false
+          failed_when: false
+
+        - name: Workstation Repository - Mark workstation repo as safe
+          ansible.builtin.command: |
+            git config --global --add safe.directory {{ paths.workstation.root }}
+          when: paths.workstation.root  not in safe_repos.stdout_lines
+
+        - name: Workstation Repository - Workstation owner
+          ansible.builtin.file:
+            path: "{{ paths.workstation.root }}"
+            owner: "{{ user }}"
+            group: "{{ user }}"
+            recurse: yes
+
+        - name: Workstation Repository - Git checkout
+          become: true
+          become_user: "{{ user }}"
+          ansible.builtin.git:
+            repo: 'https://github.com/BriceMichalski/workstation.git'
+            dest: "{{ paths.workstation.root }}"
+            version: ansible
+            clone: true
+            update: true
+            force: true
+
+    - name: Package Management
+      ansible.builtin.include_tasks: tasks/packages.yml
+    
+    - name: Files Management
+      ansible.builtin.include_tasks: tasks/files.yml
+
+    - name: Service Management
+      ansible.builtin.include_tasks: tasks/services.yml
+
+    - name: Custom Bash
+      block:
+
+        - name: Custom Bash - Git checkout ohmyzsh
+          become: true
+          become_user: "{{ user }}"
+          ansible.builtin.git:
+            repo: 'https://github.com/ohmyzsh/ohmyzsh.git'
+            dest: "{{ paths.ohmyzsh.root }}"
+            version: master
+            clone: true
+            update: true
+
+        - name: Custom Bash - ohmyzsh owner
+          become: true
+          become_user: "{{ user }}"
+          ansible.builtin.file:
+            path: "{{ paths.ohmyzsh.root }}"
+            owner: "{{ user }}"
+            group: "{{ user }}"
+
+        - name: Custom Bash - Clone ZSH pluggins
+          become: true
+          become_user: "{{ user }}"
+          ansible.builtin.git:
+            repo: '{{ item }}'
+            dest: "{{ paths.ohmyzsh.plugins }}/{{ item | basename | replace('.git', '') }}"
+            version: master
+            clone: true
+            update: true
+          loop: "{{ zsh_plugins }}"
+
+
+        - name: Custom Bash - Config files
+          become: true
+          become_user: "{{ user }}"
+          ansible.builtin.file:
+            src: "{{ paths.workstation.config_files }}/zsh/{{ item.name }}"
+            dest: "{{ item.dest }}/{{ item.name }}"
+            owner: "{{ user }}"
+            group: "{{ user }}"
+            state: link
+          loop:
+            - { name: ".zshrc", dest: "{{ home }}"  }
+            - { name: ".aliases", dest: "{{ home }}"  }
+
+        - name: Custom Bash - .env
+          become: true
+          become_user: "{{ user }}"
+          ansible.builtin.copy:
+            src: "{{ paths.workstation.config_files }}/zsh/.env"
+            dest: "{{ home }}/.env"
+            owner: "{{ user }}"
+            group: "{{ user }}"
+            mode: "0600"
+
+        - name: Custom Bash - Zsh as default bash
+          become: true
+          ansible.builtin.user:
+            name: "{{ user }}"
+            shell: "/usr/bin/zsh"
+
+    - name: Dconf Customization
+      block: 
+
+        - name: Dconf Customization - Flatten dconf dict
+          ansible.builtin.set_fact:
+            flatten_dconf: "{{ lookup('ansible.utils.to_paths', dconf) }}"
+
+        - name: Dconf Customization - Apply each entry
+          become: true
+          become_user: "{{ user }}"
+          community.general.dconf:
+            key: "/{{ item.key | replace('.','/') | replace('_','-')}}"
+            value: "{{ item.value }}"
+            state: present
+          with_dict: "{{ flatten_dconf }}"

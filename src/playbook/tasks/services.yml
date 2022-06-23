@@ -1,0 +1,7 @@
+---
+
+- name: Service Management - Enable Service
+  ansible.builtin.systemd:
+    name: "{{ item }}"
+    enabled: yes
+  loop: "{{ services }}"

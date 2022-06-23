@@ -1,0 +1,11 @@
+{
+    "links": [
+        { "src": "lightdm/lightdm.conf", "dest": "/etc/lightdm/lightdm.conf"},
+        { "src": "terminator/terminator.ini", "dest": "/home/{{ user }}/.config/terminator/config"},
+        { "src": "plank/autostart.desktop", "dest": "/home/{{ user }}/.config/autostart/plank.desktop"},
+        { "src": "plank/launchers", "dest": "/home/{{ user }}/.config/plank/mydock/launchers"}
+    ],
+    "files": [
+        { "src": "vscode/settings.json", "dest": "/home/{{ user }}/.config/Code/User/settings.json"}   
+    ]
+}

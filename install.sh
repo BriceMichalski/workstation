@@ -73,7 +73,7 @@ mkdir -p $WORKDIR
 curl $ARCHINSTALL_CONFIG_URL/archinstall/user_credentials.json --output $WORKDIR/creds.json
 curl $ARCHINSTALL_CONFIG_URL/archinstall/user_configuration.json --output $WORKDIR/config.json.tmp
 curl $ARCHINSTALL_CONFIG_URL/archinstall/user_disk_layout.json --output $WORKDIR/disk.json
-curl $ARCHINSTALL_CONFIG_URL/packages.json --output $WORKDIR/packages.json
+curl $ARCHINSTALL_CONFIG_URL/config/packages.json --output $WORKDIR/packages.json
 
 # POPULATE TEMPLATE WITH VALUE
 sed -i "s/USER_PASSWORD/$USER_PASSWORD/" $WORKDIR/creds.json

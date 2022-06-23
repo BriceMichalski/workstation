@@ -1,0 +1,64 @@
+---
+
+- name: Manage pacman packages
+  block:
+    - name: Manage pacman packages - Update pacman mirror
+      community.general.pacman:
+        update_cache: true 
+    
+    - name: Manage pacman packages - Install pacman packages
+      community.general.pacman:
+        name: "{{ item }}"
+        state: latest
+      loop: "{{ pacman.packages }}"
+
+- name: Manage aur packages
+  block:
+    - name: Manage aur packages - Create the `aur_builder` user
+      become: true
+      ansible.builtin.user:
+        name: aur_builder
+        create_home: no
+        shell: /sbin/nologin
+        system: true
+        group: wheel
+
+    - name: Manage aur packages - Allow the `aur_builder` user to run `sudo pacman` without a password
+      become: true
+      ansible.builtin.lineinfile:
+        path: /etc/sudoers.d/11-install-aur_builder
+        line: 'aur_builder ALL=(ALL) NOPASSWD: /usr/bin/pacman'
+        create: true
+        validate: 'visudo -cf %s'
+
+    - name: Manage aur packages - Aur root directory
+      ansible.builtin.file:
+        path: "{{ paths.aur.root }}"
+        state: directory
+        owner: "{{ user }}"
+        group: "{{ user }}"
+
+    - name: Manage aur packages - Clone aur repository
+      become: true
+      become_user: "{{ user }}"
+      ansible.builtin.git:
+        repo: '{{ item }}'
+        dest: "{{ paths.aur.root }}/{{ item | basename | replace('.git', '') }}"
+        version: master
+        clone: true
+        update: true
+      loop: "{{ aur.repos }}"
+
+    - name: Manage aur packages - Install local PKGBUILD
+      become: true
+      become_user: "aur_builder"
+      kewlfft.aur.aur:
+        name: "{{ item | basename | replace('.git', '') }}"
+        local_pkgbuild: "{{ paths.aur.root }}/{{ item | basename | replace('.git', '') }}/"
+        state: present
+      loop: "{{ aur.repos }}"
+
+- name: Manage pip packages - Install pip packages
+  ansible.builtin.pip:
+    name: "{{ item }}"
+  loop: "{{ pip.packages }}"
