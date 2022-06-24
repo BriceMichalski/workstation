@@ -1,2 +1,0 @@
-alias gti='git'
-alias wup='cd /home/brice_michalski/.workstation && git reset --hard && git pull && sudo bash configuration.sh --no-logout'

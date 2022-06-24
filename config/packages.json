@@ -2,6 +2,9 @@
     "pacman": {
         "packages" : [
 
+            "base",
+            "base-devel",
+
             "xorg",
             "lightdm",
             "pantheon",
@@ -19,7 +22,8 @@
             "tree",
             "terminator",
             "python-pip",
-            "figlet"
+            "figlet",
+            "ansible"
         ]
     },
     "aur": {

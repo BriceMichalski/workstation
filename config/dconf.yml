@@ -1,0 +1,21 @@
+dconf:
+  net:
+    launchpad:
+      plank:
+        enabled_docks: "['mydock']"
+        docks: 
+          mydock:
+            auto_pinning: "false"
+            current_workspace_only: "false"
+            dock_items: "['io.elementary.files.dockitem', 'io.elementary.switchboard.dockitem', 'google-chrome.dockitem', 'visual-studio-code.dockitem', 'terminator.dockitem', 'trash.dockitem']"
+            hide_delay: 0
+            icon_size: 44
+            lock_items: "false"
+            offset: 0
+            pinned_only: "false"
+            pressure_reveal: "false"
+            show_dock_item: "false"
+            tooltips_enabled: "true"
+            unhide_delay: 0
+            zoom_enabled: "true"
+            zoom_percent: 110

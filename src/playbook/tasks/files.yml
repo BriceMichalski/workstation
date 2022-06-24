@@ -1,0 +1,32 @@
+---
+
+- name: Manage File
+  block: 
+
+    - name: Manage File - Create missing directories
+      ansible.builtin.file:
+        path: "{{ item.dest | dirname }}"
+        state: directory
+        recurse: true
+        owner: "{{ item.owner if item.owner is defined else user }}"
+        group: "{{ item.group if item.group is defined else user }}"
+      loop: "{{ links + files }}"
+
+    - name: Manage File - Create Symlinks
+      ansible.builtin.file:
+        src: "{{ paths.workstation.config_files }}/{{ item.src }}"
+        dest: "{{ item.dest }}"
+        owner: "{{ item.owner if item.owner is defined else user }}"
+        group: "{{ item.group if item.group is defined else user }}"
+        state: link
+        force:  true
+      loop: "{{ links }}"
+
+    - name: Manage File - Copy Filesencrypt
+      ansible.builtin.copy:
+        src: "{{ paths.workstation.config_files }}/{{ item.src }}"
+        dest: "{{ item.dest }}"
+        owner: "{{ item.owner if item.owner is defined else user }}"
+        group: "{{ item.group if item.group is defined else user }}"
+        mode: "{{ item.mode if item.mode is defined else '0750' }}"
+      loop: "{{ files }}"

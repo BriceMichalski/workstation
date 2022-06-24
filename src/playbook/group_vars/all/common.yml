@@ -1,0 +1,18 @@
+---
+
+user: brice_michalski
+home: "/home/{{ user }}"
+
+paths:
+  workstation: 
+    root: "{{ home }}/.workstation"
+    config_files: "{{ home }}/.workstation/config/files"
+  ohmyzsh: 
+    root: "{{ home }}/.oh-my-zsh"
+    plugins: "{{ home }}/.oh-my-zsh/custom/plugins"
+  aur:
+    root: "/var/aur"
+
+zsh_plugins:
+  - https://github.com/zsh-users/zsh-autosuggestions.git
+  - https://github.com/zsh-users/zsh-syntax-highlighting.git

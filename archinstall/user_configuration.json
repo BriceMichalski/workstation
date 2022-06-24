@@ -9,8 +9,9 @@
     "bootloader": "grub-install",
     "config_version": "2.5.0",
     "custom-commands": [
-        "git clone -b main https://github.com/BriceMichalski/workstation.git /home/brice_michalski/.workstation",
-        "bash /home/brice_michalski/.workstation/configuration.sh --no-logout"
+        "git clone -b ansible https://github.com/BriceMichalski/workstation.git /home/brice_michalski/.workstation",
+        "cd /home/brice_michalski/.workstation && ansible-galaxy install -r src/requirements.yml",
+        "cd /home/brice_michalski/.workstation && ansible-playbook -i /home/brice_michalski/.workstation/src/inventories/HOSTNAME/hosts.yml /home/brice_michalski/.workstation/src/playbook/apply.yml"
     ],
     "debug": false,
     "harddrives": [
