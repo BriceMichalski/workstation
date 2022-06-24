@@ -5,6 +5,12 @@
             "base",
             "base-devel",
 
+            "openvpn",
+            "sstp-client",
+            "networkmanager-openvpn",
+            "network-manager-sstp",
+            "ppp",
+
             "xorg",
             "lightdm",
             "pantheon",
@@ -12,7 +18,7 @@
             "lightdm-gtk-greeter",
             "lightdm-pantheon-greeter",
             "dconf",
-    
+
             "zsh",
             "xterm",
             "git",

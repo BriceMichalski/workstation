@@ -6,6 +6,11 @@
         { "src": "plank/launchers", "dest": "/home/{{ user }}/.config/plank/mydock/launchers"}
     ],
     "files": [
-        { "src": "vscode/settings.json", "dest": "/home/{{ user }}/.config/Code/User/settings.json"}   
+        { "src": "ssh/id_rsa.pub", "dest": "/home/{{ user }}/.ssh/id_rsa.pub", "mode": "0644" },
+        { "src": "secrets/ssh/id_rsa.vault", "dest": "/home/{{ user }}/.ssh/id_rsa", "mode": "0600" }, 
+        { "src": "secrets/NetworkManager/home.nmconnection.vault", "dest": "/etc/NetworkManager/system-connections/home.nmconnection", "owner": "root", "group": "root" ,"mode": "0600"},
+        { "src": "secrets/NetworkManager/work.nmconnection.vault", "dest": "/etc/NetworkManager/system-connections/work.nmconnection", "owner": "root", "group": "root" ,"mode": "0600"},
+        { "src": "secrets/NetworkManager/work_vpn.nmconnection.vault", "dest": "/etc/NetworkManager/system-connections/work_vpn.nmconnection", "owner": "root", "group": "root" ,"mode": "0600"},
+        { "src": "vscode/settings.json", "dest": "/home/{{ user }}/.config/Code/User/settings.json"}
     ]
 }
