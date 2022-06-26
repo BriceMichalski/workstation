@@ -3,11 +3,11 @@ dconf:
     launchpad:
       plank:
         enabled_docks: "['mydock']"
-        docks: 
+        docks:
           mydock:
             auto_pinning: "false"
             current_workspace_only: "false"
-            dock_items: "['io.elementary.files.dockitem', 'io.elementary.switchboard.dockitem', 'google-chrome.dockitem', 'visual-studio-code.dockitem', 'terminator.dockitem', 'trash.dockitem']"
+            dock_items: "['io.elementary.files.dockitem', 'io.elementary.switchboard.dockitem', 'google-chrome.dockitem', 'visual-studio-code.dockitem', 'idea.dockitem','terminator.dockitem', 'trash.dockitem']"
             hide_delay: 0
             icon_size: 44
             lock_items: "false"
