@@ -105,6 +105,14 @@
             name: "{{ user }}"
             shell: "/usr/bin/zsh"
 
+    - name: SSH Key
+      become: true
+      become_user: "{{ user }}"
+      authorized_key:
+        user: "{{ user }}"
+        state: present
+        key: "{{ lookup('file', '/home/{{ user }}/.ssh/id_rsa.pub') }}"
+
     - name: Dconf Customization
       block: 
 

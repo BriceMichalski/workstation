@@ -22,7 +22,7 @@
         force:  true
       loop: "{{ links }}"
 
-    - name: Manage File - Copy Filesencrypt
+    - name: Manage File - Copy Files
       ansible.builtin.copy:
         src: "{{ paths.workstation.config_files }}/{{ item.src }}"
         dest: "{{ item.dest }}"
