@@ -37,7 +37,9 @@
         "repos": [
             "https://aur.archlinux.org/xtermcontrol.git",
             "https://aur.archlinux.org/google-chrome.git",
-            "https://aur.archlinux.org/visual-studio-code-bin.git"
+            "https://aur.archlinux.org/visual-studio-code-bin.git",
+            "https://aur.archlinux.org/ulauncher.git",
+            "https://aur.archlinux.org/switchboard-plug-pantheon-tweaks-git.git"
         ]
     },
     "pip": {
