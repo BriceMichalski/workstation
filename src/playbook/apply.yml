@@ -1,6 +1,6 @@
 
 - hosts: all
-  tasks: 
+  tasks:
 
     - name: Workstation Repository
       block:
@@ -36,7 +36,7 @@
 
     - name: Package Management
       ansible.builtin.include_tasks: tasks/packages.yml
-    
+
     - name: Files Management
       ansible.builtin.include_tasks: tasks/files.yml
 
@@ -121,7 +121,7 @@
         key: "{{ lookup('file', '/home/{{ user }}/.ssh/id_rsa.pub') }}"
 
     - name: Dconf Customization
-      block: 
+      block:
 
         - name: Dconf Customization - Flatten dconf dict
           ansible.builtin.set_fact:
