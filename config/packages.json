@@ -30,14 +30,22 @@
             "terminator",
             "python-pip",
             "figlet",
-            "ansible"
+            "ansible",
+
+            "kubectl",
+            "kubens",
+            "kubectx",
+            "k9s",
+            "helm",
+            "helmfile"
         ]
     },
     "aur": {
         "repos": [
             "https://aur.archlinux.org/xtermcontrol.git",
             "https://aur.archlinux.org/google-chrome.git",
-            "https://aur.archlinux.org/visual-studio-code-bin.git"
+            "https://aur.archlinux.org/visual-studio-code-bin.git",
+            "https://aur.archlinux.org/pinniped-bin.git"
         ]
     },
     "pip": {
