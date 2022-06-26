@@ -29,7 +29,7 @@
           ansible.builtin.git:
             repo: 'https://github.com/BriceMichalski/workstation.git'
             dest: "{{ paths.workstation.root }}"
-            version: main
+            version: "{{ branch if branch is defined else 'main' }}"
             clone: true
             update: true
             force: true
