@@ -118,20 +118,12 @@ function self-insert() {
 }
 zle -N self-insert
 
-
-
 zstyle :bracketed-paste-magic paste-init pasteinit
 zstyle :bracketed-paste-magic paste-finish pastefinish
 
 
-if [ -f "$HOME/.private_env.sh" ]; then
-    source "$HOME/.private_env.sh"
-fi
-if [ -f "$HOME/.set_proxy.sh" ]; then
-    source "$HOME/.set_proxy.sh"
-fi
-
 export $(cat ~/.env | xargs)
 source ~/.aliases
+source "$HOME/.proxy.sh"
 
 eval $(thefuck --alias)

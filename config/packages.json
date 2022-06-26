@@ -10,6 +10,7 @@
             "networkmanager-openvpn",
             "network-manager-sstp",
             "ppp",
+            "corkscrew",
 
             "xorg",
             "lightdm",

@@ -1,2 +1,3 @@
 alias gti='git'
+alias src='source ~/.zshrc'
 alias wup='cd /home/brice_michalski/.workstation && git reset --hard && git pull && sudo ansible-playbook -i /home/brice_michalski/.workstation/src/inventories/$(cat /etc/hostname)/hosts.yml /home/brice_michalski/.workstation/src/playbook/apply.yml --ask-vault-pass'
