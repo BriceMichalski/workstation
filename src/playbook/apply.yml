@@ -88,6 +88,12 @@
           loop:
             - { name: ".zshrc", dest: "{{ home }}"  }
             - { name: ".aliases", dest: "{{ home }}"  }
+            - { name: ".proxy.sh", dest: "{{ home }}"  }
+
+        - name: "Check if .env exist"
+          stat:
+            path: "{{ home }}/.env"
+          register: dotenv_file
 
         - name: Custom Bash - .env
           become: true
@@ -98,6 +104,7 @@
             owner: "{{ user }}"
             group: "{{ user }}"
             mode: "0600"
+          when: not dotenv_file.stat.exists
 
         - name: Custom Bash - Zsh as default bash
           become: true
