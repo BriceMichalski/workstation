@@ -1,6 +1,7 @@
 {
     "services": [
         "lightdm",
-        "NetworkManager"
+        "NetworkManager",
+        "ulauncher"
     ]
 }

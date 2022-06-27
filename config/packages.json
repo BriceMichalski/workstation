@@ -27,10 +27,14 @@
             "jq",
             "htop",
             "tree",
+            "lshw",
             "terminator",
             "python-pip",
             "figlet",
             "ansible",
+            "net-tools",
+            "tldr",
+            "medusa",
 
             "kubectl",
             "kubens",
@@ -50,7 +54,8 @@
             "https://aur.archlinux.org/xtermcontrol.git",
             "https://aur.archlinux.org/google-chrome.git",
             "https://aur.archlinux.org/visual-studio-code-bin.git",
-            "https://aur.archlinux.org/pinniped-bin.git"
+            "https://aur.archlinux.org/pinniped-bin.git",
+            "https://aur.archlinux.org/ulauncher.git"
         ]
     },
     "pip": {
