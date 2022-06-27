@@ -19,7 +19,7 @@
     ],
     "hostname": "HOSTNAME",
     "kernels": [
-        "linux-lts"
+        "linux"
     ],
     "keyboard-layout": "fr",
     "mirror-region": {
