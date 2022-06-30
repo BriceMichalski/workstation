@@ -75,7 +75,6 @@
             update: true
           loop: "{{ zsh_plugins }}"
 
-
         - name: Custom Bash - Config files
           become: true
           become_user: "{{ user }}"

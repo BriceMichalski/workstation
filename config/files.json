@@ -3,14 +3,19 @@
         { "src": "lightdm/lightdm.conf", "dest": "/etc/lightdm/lightdm.conf"},
         { "src": "terminator/terminator.ini", "dest": "/home/{{ user }}/.config/terminator/config"},
         { "src": "plank/autostart.desktop", "dest": "/home/{{ user }}/.config/autostart/plank.desktop"},
-        { "src": "plank/launchers", "dest": "/home/{{ user }}/.config/plank/mydock/launchers"}
+        { "src": "plank/launchers", "dest": "/home/{{ user }}/.config/plank/mydock/launchers"},
+        { "src": "screenlayout/triple.sh", "dest": "/home/{{ user }}/.screenlayout/triple.sh"}
     ],
     "files": [
         { "src": "ssh/id_rsa.pub", "dest": "/home/{{ user }}/.ssh/id_rsa.pub", "mode": "0644" },
-        { "src": "secrets/ssh/id_rsa.vault", "dest": "/home/{{ user }}/.ssh/id_rsa", "mode": "0600" }, 
+        { "src": "ssh/config", "dest": "/home/{{ user }}/.ssh/config"},
+        { "src": "secrets/ssh/id_rsa.vault", "dest": "/home/{{ user }}/.ssh/id_rsa", "mode": "0600" },
+        { "src": "secrets/ssh/work_config.vault", "dest": "/home/{{ user }}/.ssh/config.d/work_config", "mode": "0600" },
+        { "src": "secrets/mvn/settings.xml.vault","dest": "/home/{{ user }}/.m2/settings.xml"},
         { "src": "secrets/NetworkManager/home.nmconnection.vault", "dest": "/etc/NetworkManager/system-connections/home.nmconnection", "owner": "root", "group": "root" ,"mode": "0600"},
         { "src": "secrets/NetworkManager/work.nmconnection.vault", "dest": "/etc/NetworkManager/system-connections/work.nmconnection", "owner": "root", "group": "root" ,"mode": "0600"},
         { "src": "secrets/NetworkManager/work_vpn.nmconnection.vault", "dest": "/etc/NetworkManager/system-connections/work_vpn.nmconnection", "owner": "root", "group": "root" ,"mode": "0600"},
+        { "src": "NetworkManager/dispatcher.d/vpn-mtu.sh", "dest": "/etc/NetworkManager/dispatcher.d/vpn-mtu.sh","owner": "root", "group": "root" ,"mode": "0700" },
         { "src": "vscode/settings.json", "dest": "/home/{{ user }}/.config/Code/User/settings.json"}
     ]
 }
