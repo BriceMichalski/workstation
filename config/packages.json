@@ -12,7 +12,6 @@
             "ppp",
             "corkscrew",
 
-            "xorg",
             "lightdm",
             "pantheon",
             "pantheon-session",
@@ -55,7 +54,8 @@
             "https://aur.archlinux.org/google-chrome.git",
             "https://aur.archlinux.org/visual-studio-code-bin.git",
             "https://aur.archlinux.org/pinniped-bin.git",
-            "https://aur.archlinux.org/ulauncher.git"
+            "https://aur.archlinux.org/ulauncher.git",
+            "https://aur.archlinux.org/plymouth.git"
         ]
     },
     "pip": {
