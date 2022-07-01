@@ -16,6 +16,7 @@ help(){
   echo "-h,--hostname                   Hostname of the station"
   echo "-r,--root-password              Root password"
   echo "-u,--user-password              User password"
+  echo "-v,--vault-password              User password"
 }
 
 if [ $# -eq 0 ]; then
