@@ -1,6 +1,6 @@
 #!/bin/bash
-BRANCH="main"
-ARCHINSTALL_CONFIG_URL="https://raw.githubusercontent.com/BriceMichalski/workstation/$BRANCH"
+BRANCH_NAME="main"
+ARCHINSTALL_CONFIG_URL="https://raw.githubusercontent.com/BriceMichalski/workstation/$BRANCH_NAME"
 WORKDIR="/tmp/archinstall"
 
 RED='\033[0;31m'
@@ -82,6 +82,7 @@ sed -i "s/USER_PASSWORD/$USER_PASSWORD/" $WORKDIR/creds.json
 sed -i "s/ROOT_PASSWORD/$ROOT_PASSWORD/" $WORKDIR/creds.json
 sed -i "s/ENCRYPT_PASSWORD/$ENCRYPT_PASSWORD/" $WORKDIR/creds.json
 sed -i "s/VAULT_PASSWORD/$VAULT_PASSWORD/" $WORKDIR/config.json.tmp
+sed -i "s/BANCH_NAME/$BRANCH_NAME/" $WORKDIR/config.json.tmp
 sed -i "s/ARCHINSTALL_CONFIG_URL/$( echo $ARCHINSTALL_CONFIG_URL | sed 's/\//\\\//g')/" $WORKDIR/config.json.tmp
 
 # Packages to install
