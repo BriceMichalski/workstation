@@ -6,8 +6,9 @@
     ],
     "archinstall-language": "French",
     "audio": "pipewire",
-    "bootloader": "grub-install",
+    "bootloader": "systemd-bootctl",
     "config_version": "2.5.0",
+    "gfx_driver": "AMD / ATI (open-source)",
     "custom-commands": [
         "git clone -b main https://github.com/BriceMichalski/workstation.git /home/brice_michalski/.workstation",
         "cd /home/brice_michalski/.workstation && ansible-galaxy install -r src/requirements.yml",
@@ -15,9 +16,9 @@
     ],
     "debug": false,
     "harddrives": [
-        "DISK_NAME"
+        "/dev/nvme0n1"
     ],
-    "hostname": "HOSTNAME",
+    "hostname": "torvalds",
     "kernels": [
         "linux"
     ],
@@ -57,7 +58,7 @@
     "ntp": true,
     "plugin": null,
     "profile": {
-        "path": "/usr/lib/python3.10/site-packages/archinstall/profiles/minimal.py"
+        "path": "/usr/lib/python3.10/site-packages/archinstall/profiles/xorg.py"
     },
     "save_config": null,
     "script": "guided",

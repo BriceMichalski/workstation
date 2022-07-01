@@ -1,0 +1,72 @@
+{
+    "HSM": null,
+    "__separator__": null,
+    "additional-repositories": [
+        "multilib"
+    ],
+    "archinstall-language": "French",
+    "audio": "pipewire",
+    "bootloader": "systemd-bootctl",
+    "config_version": "2.5.0",
+    "gfx_driver": "VMware / VirtualBox (open-source)",
+    "custom-commands": [
+        "git clone -b main https://github.com/BriceMichalski/workstation.git /home/brice_michalski/.workstation",
+        "echo VAULT_PASSWORD > /home/brice_michalski/.workstation/vault_pwd",
+        "cd /home/brice_michalski/.workstation && ansible-galaxy install -r src/requirements.yml",
+        "cd /home/brice_michalski/.workstation && ansible-playbook -i /home/brice_michalski/.workstation/src/inventories/HOSTNAME/hosts.yml /home/brice_michalski/.workstation/src/playbook/apply.yml --vault-password-file /home/brice_michalski/.workstation/vault_pwd"
+    ],
+    "debug": false,
+    "harddrives": [
+        "/dev/sda"
+    ],
+    "hostname": "vm",
+    "kernels": [
+        "linux"
+    ],
+    "keyboard-layout": "fr",
+    "mirror-region": {
+        "France": {
+            "https://archlinux.vi-di.fr/$repo/os/$arch": true,
+            "https://mirror.cyberbits.eu/archlinux/$repo/os/$arch": true,
+            "https://mirrors.eric.ovh/arch/$repo/os/$arch": true,
+            "https://mirrors.gandi.net/archlinux/$repo/os/$arch": true,
+            "https://mirror.ibakerserver.pt/Arch/$repo/os/$arch": true,
+            "https://arch.juline.tech/$repo/os/$arch": true,
+            "https://mirroir.labhouse.fr/arch/$repo/os/$arch": true,
+            "https://arch-mirror.cloud.louifox.house/$repo/os/$arch": true,
+            "https://archlinux.mailtunnel.eu/$repo/os/$arch": true,
+            "https://mirrors.celianvdb.fr/archlinux/$repo/os/$arch": true,
+            "https://arch.nimukaito.net/$repo/os/$arch": true,
+            "https://mirror.oldsql.cc/archlinux/$repo/os/$arch": true,
+            "https://mirrors.slaanesh.org/archlinux/$repo/os/$arch": true,
+            "https://mirror.sysa.tech/archlinux/$repo/os/$arch": true,
+            "https://mirror.thekinrar.fr/archlinux/$repo/os/$arch": true,
+            "https://mirror.theo546.fr/archlinux/$repo/os/$arch": true,
+            "https://mirror.wormhole.eu/archlinux/$repo/os/$arch": true,
+            "https://mirroir.wptheme.fr/archlinux/$repo/os/$arch": true,
+            "https://arch.yourlabs.org/$repo/os/$arch": true
+        }
+    },
+    "mount_point": null,
+    "nic": {
+        "dhcp": true,
+        "dns": null,
+        "gateway": null,
+        "iface": null,
+        "ip": null,
+        "type": "nm"
+    },
+    "ntp": true,
+    "plugin": null,
+    "profile": {
+        "path": "/usr/lib/python3.10/site-packages/archinstall/profiles/xorg.py"
+    },
+    "save_config": null,
+    "script": "guided",
+    "silent": false,
+    "swap": true,
+    "sys-encoding": "UTF-8",
+    "sys-language": "fr_FR",
+    "timezone": "Europe/Paris",
+    "version": "2.5.0"
+}
