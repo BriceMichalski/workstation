@@ -8,7 +8,7 @@
                     "format": "fat32"
                 },
                 "mountpoint": "/boot",
-                "size": "203MiB",
+                "size": "512MiB",
                 "start": "3MiB",
                 "type": "primary",
                 "wipe": true
