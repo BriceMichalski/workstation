@@ -1,5 +1,6 @@
 #!/bin/bash
-ARCHINSTALL_CONFIG_URL="https://raw.githubusercontent.com/BriceMichalski/workstation/main"
+BRANCH_NAME="main"
+ARCHINSTALL_CONFIG_URL="https://raw.githubusercontent.com/BriceMichalski/workstation/$BRANCH_NAME"
 WORKDIR="/tmp/archinstall"
 
 RED='\033[0;31m'
@@ -11,11 +12,11 @@ help(){
   echo "USAGE:"
   echo "  $ install.sh [ARGS]"
   echo "ARGS:"
-  echo "-d,--disk-name                  Disk that will be parted"
   echo "-e,--encrypt-password           Root partition encryption password"
   echo "-h,--hostname                   Hostname of the station"
   echo "-r,--root-password              Root password"
   echo "-u,--user-password              User password"
+  echo "-v,--vault-password              User password"
 }
 
 if [ $# -eq 0 ]; then
@@ -25,11 +26,6 @@ fi
 
 while [[ $# -gt 0 ]]; do
   case $1 in
-    -d|--disk-name)
-      DISK_NAME=$( echo $2 | sed 's/\//\\\//g')
-      shift # past argument
-      shift # past value
-      ;;
     -e|--encrypt-password)
       ENCRYPT_PASSWORD="$2"
       shift # past argument
@@ -50,12 +46,18 @@ while [[ $# -gt 0 ]]; do
       shift # past argument
       shift # past value
       ;;
+    -v|--vault-password)
+      VAULT_PASSWORD="$2"
+      shift # past argument
+      shift # past value
+      ;;
     --help)
       help
       exit 0
       ;;
     -*|--*)
       echo "Unknown option $1"
+      help
       exit 1
       ;;
     *)
@@ -71,25 +73,23 @@ mkdir -p $WORKDIR
 
 # Download Archinstall Template
 curl $ARCHINSTALL_CONFIG_URL/archinstall/user_credentials.json --output $WORKDIR/creds.json
-curl $ARCHINSTALL_CONFIG_URL/archinstall/user_configuration.json --output $WORKDIR/config.json.tmp
-curl $ARCHINSTALL_CONFIG_URL/archinstall/user_disk_layout.json --output $WORKDIR/disk.json
+curl $ARCHINSTALL_CONFIG_URL/archinstall/$HOSTNAME/user_configuration.json --output $WORKDIR/config.json.tmp
+curl $ARCHINSTALL_CONFIG_URL/archinstall/$HOSTNAME/user_disk_layout.json --output $WORKDIR/disk.json
 curl $ARCHINSTALL_CONFIG_URL/config/packages.json --output $WORKDIR/packages.json
 
 # POPULATE TEMPLATE WITH VALUE
 sed -i "s/USER_PASSWORD/$USER_PASSWORD/" $WORKDIR/creds.json
 sed -i "s/ROOT_PASSWORD/$ROOT_PASSWORD/" $WORKDIR/creds.json
 sed -i "s/ENCRYPT_PASSWORD/$ENCRYPT_PASSWORD/" $WORKDIR/creds.json
-
-sed -i "s/DISK_NAME/$DISK_NAME/" $WORKDIR/disk.json
-
+sed -i "s/VAULT_PASSWORD/$VAULT_PASSWORD/" $WORKDIR/config.json.tmp
+sed -i "s/BANCH_NAME/$BRANCH_NAME/" $WORKDIR/config.json.tmp
 sed -i "s/ARCHINSTALL_CONFIG_URL/$( echo $ARCHINSTALL_CONFIG_URL | sed 's/\//\\\//g')/" $WORKDIR/config.json.tmp
-sed -i "s/DISK_NAME/$DISK_NAME/" $WORKDIR/config.json.tmp
-sed -i "s/HOSTNAME/$HOSTNAME/" $WORKDIR/config.json.tmp
 
+# Packages to install
 jq -s '.[0].pacman * .[1]' $WORKDIR/packages.json $WORKDIR/config.json.tmp > $WORKDIR/config.json
 
 # Launch Archinstall
-archinstall --silent --debug --creds $WORKDIR/creds.json --config $WORKDIR/config.json --disk_layouts $WORKDIR/disk.json
+archinstall --silent --creds $WORKDIR/creds.json --config $WORKDIR/config.json --disk_layouts $WORKDIR/disk.json
 
 if [ $? -eq 0 ]; then
     echo -e "${GREEN}"

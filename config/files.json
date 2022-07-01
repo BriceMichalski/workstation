@@ -16,6 +16,7 @@
         { "src": "secrets/NetworkManager/work.nmconnection.vault", "dest": "/etc/NetworkManager/system-connections/work.nmconnection", "owner": "root", "group": "root" ,"mode": "0600"},
         { "src": "secrets/NetworkManager/work_vpn.nmconnection.vault", "dest": "/etc/NetworkManager/system-connections/work_vpn.nmconnection", "owner": "root", "group": "root" ,"mode": "0600"},
         { "src": "NetworkManager/dispatcher.d/vpn-mtu.sh", "dest": "/etc/NetworkManager/dispatcher.d/vpn-mtu.sh","owner": "root", "group": "root" ,"mode": "0700" },
-        { "src": "vscode/settings.json", "dest": "/home/{{ user }}/.config/Code/User/settings.json"}
+        { "src": "vscode/settings.json", "dest": "/home/{{ user }}/.config/Code/User/settings.json"},
+        { "src": "mkinit/mkinitcpio.conf", "dest": "/etc/mkinitcpio.conf", "owner": "root", "group": "root", "mode": "0644" }
     ]
 }

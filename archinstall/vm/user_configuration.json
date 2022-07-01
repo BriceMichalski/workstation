@@ -8,16 +8,18 @@
     "audio": "pipewire",
     "bootloader": "grub-install",
     "config_version": "2.5.0",
+    "gfx_driver": "VMware / VirtualBox (open-source)",
     "custom-commands": [
-        "git clone -b main https://github.com/BriceMichalski/workstation.git /home/brice_michalski/.workstation",
+        "git clone -b BANCH_NAME https://github.com/BriceMichalski/workstation.git /home/brice_michalski/.workstation",
+        "echo 'VAULT_PASSWORD' > /home/brice_michalski/.workstation/vault_pwd",
         "cd /home/brice_michalski/.workstation && ansible-galaxy install -r src/requirements.yml",
-        "cd /home/brice_michalski/.workstation && ansible-playbook -i /home/brice_michalski/.workstation/src/inventories/HOSTNAME/hosts.yml /home/brice_michalski/.workstation/src/playbook/apply.yml"
+        "cd /home/brice_michalski/.workstation && ansible-playbook -i /home/brice_michalski/.workstation/src/inventories/vm/hosts.yml /home/brice_michalski/.workstation/src/playbook/apply.yml --vault-password-file /home/brice_michalski/.workstation/vault_pwd -e 'branch=BANCH_NAME'"
     ],
     "debug": false,
     "harddrives": [
-        "DISK_NAME"
+        "/dev/sda"
     ],
-    "hostname": "HOSTNAME",
+    "hostname": "vm",
     "kernels": [
         "linux"
     ],
@@ -57,7 +59,7 @@
     "ntp": true,
     "plugin": null,
     "profile": {
-        "path": "/usr/lib/python3.10/site-packages/archinstall/profiles/minimal.py"
+        "path": "/usr/lib/python3.10/site-packages/archinstall/profiles/xorg.py"
     },
     "save_config": null,
     "script": "guided",
