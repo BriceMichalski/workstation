@@ -6,7 +6,7 @@
     ],
     "archinstall-language": "French",
     "audio": "pipewire",
-    "bootloader": "systemd-bootctl",
+    "bootloader": "grub-install",
     "config_version": "2.5.0",
     "gfx_driver": "VMware / VirtualBox (open-source)",
     "custom-commands": [
