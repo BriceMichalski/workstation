@@ -105,12 +105,6 @@
             mode: "0600"
           when: not dotenv_file.stat.exists
 
-        - name: Custom Bash - Zsh as default bash
-          become: true
-          ansible.builtin.user:
-            name: "{{ user }}"
-            shell: "/usr/bin/zsh"
-
     - name: SSH Key
       become: true
       become_user: "{{ user }}"
@@ -134,3 +128,10 @@
             value: "{{ item.value }}"
             state: present
           with_dict: "{{ flatten_dconf }}"
+
+    - name: User Settings
+      become: true
+      ansible.builtin.user:
+        name: "{{ user }}"
+        shell: "/usr/bin/zsh"
+        groups: "{{ groups }}"

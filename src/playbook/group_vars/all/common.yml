@@ -2,12 +2,17 @@
 
 user: brice_michalski
 home: "/home/{{ user }}"
+groups:
+  - wheel
+  - brice_michalski
+  - docker
+
 
 paths:
-  workstation: 
+  workstation:
     root: "{{ home }}/.workstation"
     config_files: "{{ home }}/.workstation/config/files"
-  ohmyzsh: 
+  ohmyzsh:
     root: "{{ home }}/.oh-my-zsh"
     plugins: "{{ home }}/.oh-my-zsh/custom/plugins"
   aur:
