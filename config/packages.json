@@ -34,7 +34,6 @@
             "ansible",
             "net-tools",
             "tldr",
-            "medusa",
 
             "kubectl",
             "kubens",

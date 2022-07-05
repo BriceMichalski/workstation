@@ -9,11 +9,12 @@
     "bootloader": "grub-install",
     "config_version": "2.5.0",
     "custom-commands": [
-        "git clone -b main https://github.com/BriceMichalski/workstation.git /home/brice_michalski/.workstation",
+        "git clone -b fix https://github.com/BriceMichalski/workstation.git /home/brice_michalski/.workstation",
         "cd /home/brice_michalski/.workstation && ansible-galaxy install -r src/requirements.yml",
         "cd /home/brice_michalski/.workstation && ansible-playbook -i /home/brice_michalski/.workstation/src/inventories/HOSTNAME/hosts.yml /home/brice_michalski/.workstation/src/playbook/apply.yml"
     ],
     "debug": false,
+    "gfx_driver": "AMD / ATI (open-source)",
     "harddrives": [
         "DISK_NAME"
     ],
@@ -57,12 +58,12 @@
     "ntp": true,
     "plugin": null,
     "profile": {
-        "path": "/usr/lib/python3.10/site-packages/archinstall/profiles/minimal.py"
+        "path": "/usr/lib/python3.10/site-packages/archinstall/profiles/xorg.py"
     },
     "save_config": null,
     "script": "guided",
     "silent": false,
-    "swap": true,
+    "swap": false,
     "sys-encoding": "UTF-8",
     "sys-language": "fr_FR",
     "timezone": "Europe/Paris",
